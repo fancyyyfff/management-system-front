@@ -4,7 +4,7 @@
     <div class="swiper-wrapped">
         <!-- 轮播图：elment plus的走马灯之卡片 -->
         <el-carousel :interval="4000"  indicator-position="outside" type="card" height="320px">
-    <el-carousel-item v-for="(item,index) in imageUrl" :key="Index">
+    <el-carousel-item v-for="(item,index) in imageUrl" :key="index">
       <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
     <img v-if="imageUrl[index] && index >= 0 && index < imageUrl.length" :src="imageUrl[index]" class="swiper" />
 
@@ -15,13 +15,13 @@
     <div class="layout-wrapped">
         <!-- layout的分栏间隔 -->
         <el-row :gutter="20">
-    <el-col :span="6">
+    <el-col :span="6" v-for="(item,index) in allCompanyIntroduce" :key="index">
         <div class="company-message-area"> 
-            <span>公司介绍</span>           
-
+            <span>{{ item.set_name }}</span>  
+            <div v-html="item.set_text" class="company-introduce"></div>         
         </div>
     </el-col>
-    <el-col :span="6">
+    <!-- <el-col :span="6">
         <div class="company-message-area">
             <span>公司架构</span>
 
@@ -38,7 +38,8 @@
             <span>高层介绍</span>
 
         </div>
-    </el-col>
+    </el-col> -->
+
   </el-row>
 
     </div>
@@ -71,7 +72,7 @@
 <script setup lang="ts" name="Index">
  import  BreadCrumb  from "@/components/BreadCrumb.vue";
  import { reactive, ref } from "vue";
- import { getAllSwipers } from "@/api/setting";
+ import { getAllSwipers,getAllCompanyIntroduce } from "@/api/setting";
 import Index from "../login/Index.vue";
  // 面包屑
  const breadcrumb = ref()
@@ -118,6 +119,17 @@ const getAllSwipers1 = async ()=>{
 getAllSwipers1()
 
 
+
+// 获取公司的全部信息
+const allCompanyIntroduce = ref([])
+const getAllCompanyIntroduce1 = async ()=> {
+   const res= await getAllCompanyIntroduce() 
+   
+   const [name,...intro] = res
+   allCompanyIntroduce.value = intro
+   console.log("获取公司的全部信息返回的结果：",res)
+}
+getAllCompanyIntroduce1()
 
 
 </script>
