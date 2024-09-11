@@ -90,7 +90,7 @@
                 <!-- 消息 -->
                 <el-icon :size="20"><Message /></el-icon>
                 <!-- 头像 -->
-                <el-avatar :size="24" :src="circleUrl" />
+                <el-avatar :size="24" :src="userStore.imageUrl" />
                 <!-- 设置的下拉菜单 -->
                 <el-dropdown>
     <span class="el-dropdown-link">
@@ -125,18 +125,12 @@ import {
 import { reactive, toRefs } from 'vue'
 // 调用vue-router中的useRouter
 import {useRouter} from 'vue-router'
+import { useUserInfo } from "@/store/userInfo";
 
 const router=useRouter()
 
+const userStore=useUserInfo()
 
-
-// 这是头像：
-const state = reactive({
-  circleUrl:
-    'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-
-})
-const { circleUrl } = toRefs(state)
 
 const logOut = ()=> {
   // 退出登录就是回到一开始登录的地方

@@ -12,8 +12,8 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 // element-plus/icons
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
 import 'virtual:svg-icons-register'
+import  pinia  from "@/store";
 // element-plus/icons
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -25,6 +25,5 @@ app.use(ElementPlus, {
   })
   
 app.use(router)
-// ElementPlus的使用
-app.use(ElementPlus)
+app.use(pinia)
 app.mount('#app')

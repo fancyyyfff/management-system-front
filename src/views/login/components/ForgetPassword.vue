@@ -106,14 +106,14 @@ const verifyAccount = async ()=>{
   const res =await verify(forgetData)
 
 // console.log(res)
-  if(res.data.status==0){
+  if(res.status==0){
     // 弹窗的信息
     ElMessage({
     message: '验证成功',
     type: 'success',
   })
   // 验证成功后，保存下后端传来的id,方便后面的修改密码的使用
-  localStorage.setItem('id',res.data.id)
+  localStorage.setItem('id',res.id)
   // 两个对话框重叠，先关闭修改密码的对话框
   state.forgetPasswordDialog=false
   // 打开修改密码的弹窗
@@ -133,7 +133,7 @@ const resetPassword = async ()=>{
 
   const res=await reset(localStorage.getItem("id"),newPassword)
   console.log(res)
-    if(res.data.status==0){
+    if(res.status==0){
       ElMessage({
     message: '修改成功',
     type: 'success',

@@ -94,10 +94,13 @@ import { register,login } from '@/api/login';
 // 弹出提示消息
 import { ElMessage } from 'element-plus'
 import {useRouter} from 'vue-router'
+import { useUserInfo } from "@/store/userInfo";
 
 const activeName = ref('first')
 // 路由
 const router =useRouter()
+// pinia存储数据
+const userStore = useUserInfo()
 
 
 // 表单接口
@@ -123,15 +126,22 @@ const registerData : formData=  reactive({
 // 登录
 const Login = async ()=> {
   const res= await login(loginData)
-  const {token} =res.data
-  if(res.data.message=="登录成功") {
+  const {token} =res
+  const {id} = res.results
+  if(res.message=="登录成功") {
     ElMessage({
     message: '登录成功',
     type: 'success',
     plain: true,
   })
   // 登录后会返回token，需要保存下来
+  // 把id存储下来!!方便获取数据
+  localStorage.setItem('id',id)
   localStorage.setItem('token',token)
+  console.log("前端获取到的token",token)
+  // 保存到pinia
+  userStore.fetchUserInfo(id)
+
   // 登录成功之后跳转到首页 
   router.push('/home')
 }else {
@@ -158,7 +168,7 @@ const Register = async ()=> {
 
     const res =await register(registerData)
   // 如果成功，弹出成功消息
-  if(res.data.message=='注册成功'){
+  if(res.message=='注册成功'){
     ElMessage({
     message: '注册成功',
     type: 'success',

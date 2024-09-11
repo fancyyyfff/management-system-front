@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+// const token = localStorage.getItem('token'); // 确保token在localStorage中
+
 // 创建axios实例
 const instance = axios.create({
     // 后端的接口
@@ -7,7 +9,8 @@ const instance = axios.create({
     timeout: 6000,//设置超时
     // 使用表单默认的类型
     headers:{
-      'Content-Type':'application/x-www-form-urlencoded'
+      'Content-Type':'application/x-www-form-urlencoded',
+      // 'Authorization': `Bearer ${token}`
     }
   });
 
@@ -24,7 +27,7 @@ const instance = axios.create({
 instance.interceptors.response.use(function (response) {
   // 2xx 范围内的状态码都会触发该函数。
   // 对响应数据做点什么
-  return response;
+  return response.data;
 }, function (error) {
   // 超出 2xx 范围的状态码都会触发该函数。
   // 对响应错误做点什么
