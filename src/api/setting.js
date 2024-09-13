@@ -12,10 +12,13 @@ export const getAllSwipers = () =>{
 }
 
 // 获取公司名称
-export const getCompanyName = () =>{
+export const getCompanyName = (setName) =>{
     return instance({
         url:'/set/getCompanyName',
         method:'POST',
+        data: {
+            setName
+        }
     })
 }
 
@@ -32,21 +35,25 @@ export const changeCompanyName = (setValue) =>{
 
 
 // 修改公司介绍
-export const changeCompanyIntroduce = (setText) =>{
+export const changeCompanyIntroduce = (setText,setName) =>{
     return instance({
         url:'/set/changeCompanyIntroduce',
         method:'POST',
         data: {
-            setText
+            setText,
+            setName
         }
     })
 }
 
 // 获取公司介绍
-export const getCompanyIntroduce = () =>{
+export const getCompanyIntroduce = (setName) =>{
     return instance({
         url:'/set/getCompanyIntroduce',
         method:'POST',
+        data:{
+            setName
+        }
     })
 }
 

@@ -286,6 +286,7 @@ const getCompanyName1 = async ()=> {
 
 }
 
+getCompanyName1()
 // 修改公司名称
 const changeCompanyName1 = async ()=>{
   const res = await changeCompanyName(companyName.value)
@@ -319,6 +320,7 @@ const getAllSwipers1 = async ()=>{
 
 // 调用,必须要调用，这样加载资源就会自动获取响应的资源
 getAllSwipers1()
+
 </script>
  
  <style lang="scss" scoped>

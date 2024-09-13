@@ -15,16 +15,17 @@
     <div class="layout-wrapped">
         <!-- layout的分栏间隔 -->
         <el-row :gutter="20">
-    <el-col :span="6" v-for="(item,index) in allCompanyIntroduce" :key="index">
+    <el-col :span="6" v-for="(item,index) in allCompanyIntroduce" :key="index"  @click="openIntroduce1(index+1)">
         <div class="company-message-area"> 
             <span>{{ item.set_name }}</span>  
             <div v-html="item.set_text" class="company-introduce"></div>         
         </div>
     </el-col>
-    <!-- <el-col :span="6">
+<!--     
+    <el-col :span="6" @click="openIntroduce1(2)" v-model="companyIntroduce">
         <div class="company-message-area">
             <span>公司架构</span>
-
+            <div v-html="" class="company-introduce"></div>
         </div>
     </el-col>
     <el-col :span="6">
@@ -36,7 +37,6 @@
     <el-col :span="6">
         <div class="company-message-area">
             <span>高层介绍</span>
-
         </div>
     </el-col> -->
 
@@ -67,13 +67,17 @@
     </div>
 </div>
 
+<Introduce ref="intro"></Introduce>
+
 </template>
 
 <script setup lang="ts" name="Index">
  import  BreadCrumb  from "@/components/BreadCrumb.vue";
  import { reactive, ref } from "vue";
- import { getAllSwipers,getAllCompanyIntroduce } from "@/api/setting";
+ import { getAllSwipers,getAllCompanyIntroduce,getCompanyIntroduce } from "@/api/setting";
 import Index from "../login/Index.vue";
+import { bus } from "@/utils/mitt";
+import Introduce from "./components/Introduce.vue";
  // 面包屑
  const breadcrumb = ref()
  const item = ref({
@@ -104,8 +108,6 @@ const tableData = [
   },
 ]
 
-
-
 // 获取所有轮播图：
 // 轮播图的图片
 const imageUrl = ref([])
@@ -118,8 +120,6 @@ const getAllSwipers1 = async ()=>{
 // 调用,必须要调用，这样加载资源就会自动获取响应的资源
 getAllSwipers1()
 
-
-
 // 获取公司的全部信息
 const allCompanyIntroduce = ref([])
 const getAllCompanyIntroduce1 = async ()=> {
@@ -131,12 +131,23 @@ const getAllCompanyIntroduce1 = async ()=> {
 }
 getAllCompanyIntroduce1()
 
+const intro = ref()
+// 点击公司介绍的四个弹框，都会弹出详细的公司介绍
+const openIntroduce1 = (id:number)=> {
+  bus.emit('introduce',id)
+  intro.value.openIntroduce()
 
+}
+
+const companyIntroduce =ref()
+const getCompanyIntroduce1 =async (setName)=> {
+  companyIntroduce.value = getCompanyIntroduce(setName)
+}
 </script>
 
 <style lang="scss" scoped>
  @mixin table-class {
-    height: 240px;
+    height: 232px;
     width: 48%;
     display: flex;
     flex-direction: column;
@@ -179,6 +190,16 @@ getAllCompanyIntroduce1()
                 border-bottom: 1px solid #409eff;
                 font-size: 14px;
             }
+
+            .company-introduce {
+              text-indent: 24px;
+              font-size: 14px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 3;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+            }
         }
 
         .company-message-area :hover {
@@ -190,7 +211,7 @@ getAllCompanyIntroduce1()
 
     // 表格外壳
     .two-table-wrapped {
-        height: 300px;
+        height: 232px;
         width: 100%;
         display: flex;
         align-items: center;
@@ -230,4 +251,5 @@ getAllCompanyIntroduce1()
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
+
 </style>
